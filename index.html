@@ -6,27 +6,21 @@
   <title>csadv | cvasdcv</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            serif: ['Cormorant Garamond', 'serif'],
-          },
           colors: {
-            brand: {
-              bg: '#ffffff',       
-              surface: '#ffffff',
-              border: '#6e6e73',
-              text: '#0a0a0a',     
-              muted: '#6e6e73',
-              accent: '#6e6e73'    
+            black: '#0a0a0a',
+            white: '#ffffff',
+            gray: {
+              100: '#6e6e7322',
+              200: '#6e6e7333',
+              400: '#6e6e73',
+              500: '#6e6e73',
+              600: '#0a0a0acc',
             }
           }
         }
@@ -35,71 +29,88 @@
   </script>
 
   <style>
-    /* BASE & RESET */
+    /* =============================================
+       BASE & RESET
+    ============================================= */
     html.lenis, html.lenis body { height: auto; width: 100vw; overflow-x: hidden; }
     .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
     body {
-      background-color: #ffffff; color: #0a0a0a;
+      font-family: 'Inter', sans-serif; background-color: #ffffff; color: #0a0a0a;
       -webkit-font-smoothing: antialiased; overflow-x: hidden;
       word-break: break-word; overflow-wrap: break-word;
     }
 
-    /* CURSOR & PROGRESS BAR */
+    /* =============================================
+       CURSOR CUSTOMIZADO & PROGRESS BAR
+    ============================================= */
     #gsap-progress-bar {
-      position: fixed; top: 0; left: 0; height: 2px;
-      background: #0a0a0a; z-index: 10000; width: 0; pointer-events: none;
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, #0a0a0a, #6e6e73);
+      z-index: 10000; width: 0; pointer-events: none;
     }
     #gsap-cursor {
-      position: fixed; top: 0; left: 0; width: 40px; height: 40px;
-      border-radius: 50%; border: 1px solid #0a0a0a4D;
-      pointer-events: none; z-index: 9999; opacity: 0; mix-blend-mode: multiply;
-      transition: width 0.3s, height 0.3s, background-color 0.3s;
+      position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+      border-radius: 50%; border: 2px solid #0a0a0a;
+      pointer-events: none; z-index: 9999; opacity: 0; mix-blend-mode: difference;
     }
     #gsap-cursor-follower {
-      position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
       border-radius: 50%; background: #0a0a0a;
-      pointer-events: none; z-index: 9999; opacity: 0; mix-blend-mode: multiply;
+      pointer-events: none; z-index: 9999; opacity: 0; mix-blend-mode: difference;
     }
 
-    /* ANIMAÇÕES & COMPONENTES */
+    /* =============================================
+       ANIMAÇÕES & COMPONENTES (EPIVERSO ENGINE)
+    ============================================= */
+    .hero-glow {
+      position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse at center, #6e6e7333 0%, transparent 70%);
+      pointer-events: none; will-change: transform;
+    }
+
     .glass-nav {
-      background: #ffffffCC; backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid #6e6e734D;
+      background: #ffffffD9; backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid #6e6e731A;
+      transition: box-shadow 0.3s ease;
     }
 
-    .fade-up { opacity: 0; transform: translateY(50px); transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .fade-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
     .framer-tilt { transform-style: preserve-3d; will-change: transform; }
     .framer-magnetic { will-change: transform; display: inline-block; }
 
-    .btn-premium {
+    .card-tech {
+      background: #ffffff; border: 1px solid #6e6e7322; border-radius: 24px;
+      transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .card-tech:hover { box-shadow: 0 12px 40px #6e6e731A; border-color: #6e6e7366; }
+
+    .btn-glow {
       position: relative; display: inline-flex; align-items: center; justify-content: center;
-      background: #0a0a0a; color: #ffffff; border-radius: 4px;
-      padding: 18px 40px; font-weight: 400; font-size: 15px; letter-spacing: 0.05em; text-transform: uppercase;
-      overflow: hidden; transition: all 0.4s ease;
+      background: #0a0a0a; color: #ffffff; border-radius: 99px;
+      padding: 16px 36px; font-weight: 600; font-size: 16px;
+      overflow: hidden; transition: transform 0.2s ease;
     }
-    .btn-premium:hover { background: #6e6e73; transform: translateY(-2px); }
-    
-    .btn-outline {
-      border: 1px solid #6e6e73; color: #0a0a0a; padding: 18px 40px;
-      font-weight: 400; font-size: 15px; letter-spacing: 0.05em; text-transform: uppercase;
-      transition: all 0.4s ease; border-radius: 4px;
+    .btn-glow:hover { transform: scale(1.02); }
+    .btn-glow::before {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      width: 150%; height: 150%;
+      background: radial-gradient(circle, #ffffff33 0%, transparent 60%);
+      transform: translate(-50%, -50%) scale(0); transition: transform 0.4s ease;
     }
-    .btn-outline:hover { border-color: #0a0a0a; }
+    .btn-glow:hover::before { transform: translate(-50%, -50%) scale(1); }
 
-    .parallax-img-wrapper { overflow: hidden; position: relative; }
-    .parallax-img { transform: scale(1.15); will-change: transform; }
-
-    .faq-item { border-bottom: 1px solid #6e6e734D; }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
-    .faq-answer.open { max-height: 400px; }
-    .faq-icon { transition: transform 0.4s ease; font-family: sans-serif; }
-    .faq-icon.open { transform: rotate(180deg); }
+    /* FAQ Accordion */
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+    .faq-answer.open { max-height: 300px; padding-bottom: 20px; }
+    .faq-icon { transition: transform 0.3s ease; color: #0a0a0a; }
+    .faq-icon.open { transform: rotate(45deg); }
 
     /* =============================================
-       NOVO MÓDULO: CARROSSEL INFINITO
+       NOVO MÓDULO: CARROSSEL INFINITO (PORTFÓLIO)
     ============================================= */
     @keyframes scroll-infinite {
       from { transform: translateX(0); }
@@ -108,18 +119,18 @@
     .animate-infinite-scroll {
       animation: scroll-infinite 45s linear infinite;
     }
-    .carousel-item {
-      width: 300px; height: 400px; flex-shrink: 0;
-      background: #ffffff; border: 1px solid #6e6e73;
+    .tech-portfolio-item {
+      width: 300px; height: 380px; flex-shrink: 0;
+      background: #ffffff; border: 1px solid #6e6e7322; border-radius: 20px;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Cormorant Garamond', serif; color: #6e6e73; font-size: 15px;
-      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease;
+      font-weight: 600; color: #6e6e73; font-size: 14px;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
       overflow: hidden; cursor: pointer;
     }
-    .carousel-item:hover {
+    .tech-portfolio-item:hover {
       transform: translateY(-8px) scale(1.02);
-      border-color: #0a0a0a;
-      z-index: 10; box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+      box-shadow: 0 20px 40px #6e6e731A;
+      z-index: 10;
     }
   </style>
 </head>
@@ -129,69 +140,65 @@
   <div id="gsap-cursor" class="hidden md:block"></div>
   <div id="gsap-cursor-follower" class="hidden md:block"></div>
 
-  <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300 py-2" id="navbar">
-    <div class="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-      <div class="font-serif text-2xl tracking-wide text-brand-text framer-magnetic cursor-pointer uppercase">
+  <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <div class="font-bold text-xl tracking-tight framer-magnetic cursor-pointer text-[#0a0a0a]">
         csadv
       </div>
-      <a href="#contato" class="btn-premium py-3 px-8 text-xs framer-magnetic">Fale Conosco</a>
+      <a href="#contato" class="btn-glow py-2.5 px-6 text-sm framer-magnetic">Falar com especialista</a>
     </div>
   </nav>
 
-  <section class="relative pt-40 pb-20 px-8 min-h-[90vh] flex items-center">
-    <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-12 items-center">
-      <div class="lg:col-span-7 relative z-10 pt-10">
-        <div class="fade-up flex items-center gap-3 mb-8">
-          <div class="h-px w-12 bg-brand-accent"></div>
-          <span class="text-xs uppercase tracking-[0.2em] text-brand-muted font-medium">cvasdcv em Passo de Torres - SC</span>
-        </div>
-        <h1 class="fade-up text-[clamp(44px,6vw,84px)] font-serif leading-[1.05] text-brand-text mb-8">
-          sacasc
-        </h1>
-        <p class="fade-up text-[clamp(16px,1.5vw,20px)] text-brand-muted max-w-lg mb-12 font-light leading-relaxed">
-          ascasc
-        </p>
-        <div class="fade-up flex flex-wrap gap-4">
-          <a href="#contato" class="btn-premium framer-magnetic">sca</a>
+  <section class="relative pt-48 pb-32 px-6 overflow-hidden">
+    <div class="hero-glow"></div>
+    <div class="max-w-5xl mx-auto text-center relative z-10">
+      <div class="fade-up inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest uppercase bg-gray-100 rounded-full text-gray-500 hover:scale-105 transition-transform border border-gray-200">
+        cvasdcv em Passo de Torres - SC
+      </div>
+      <h1 class="fade-up text-[clamp(40px,6vw,72px)] font-extrabold tracking-tight mb-8 leading-[1.05] text-[#0a0a0a]">
+        sacasc
+      </h1>
+      <p class="fade-up text-[clamp(18px,2vw,22px)] text-gray-500 max-w-3xl mx-auto mb-12 leading-relaxed">
+        ascasc
+      </p>
+      <div class="fade-up flex justify-center">
+        <a href="#contato" class="btn-glow framer-magnetic">sca</a>
+      </div>
+
+      <div class="fade-up mt-16 framer-tilt">
+        <div class="w-full aspect-[16/9] md:aspect-[21/9] bg-gray-100 rounded-3xl overflow-hidden relative shadow-2xl shadow-black/10 border border-gray-200 flex items-center justify-center">
           
-          <a href="#areas" class="btn-outline framer-magnetic">Saiba Mais</a>
+          <img src="assets/hero_fc52fbfd6b254e11a8073d35805fe8e7.png" alt="Destaque Principal" class="absolute inset-0 w-full h-full object-cover">
           
         </div>
       </div>
-      <div class="lg:col-span-5 h-[70vh] w-full parallax-img-wrapper fade-up rounded-t-[200px] overflow-hidden">
-        <div class="w-full h-full bg-brand-border parallax-img">
-          
-          <img src="assets/hero_fc52fbfd6b254e11a8073d35805fe8e7.png" alt="Principal" class="w-full h-full object-cover">
-          
-        </div>
-      </div>
+
     </div>
   </section>
 
   
-  <section class="py-32 px-8 bg-brand-surface border-y border-brand-border">
-    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-16">
-      <div class="lg:col-span-4 lg:sticky lg:top-40 h-fit fade-up">
-        <span class="text-xs uppercase tracking-[0.2em] text-brand-accent mb-4 block">A Solução Certa</span>
-        <h2 class="text-4xl md:text-5xl font-serif text-brand-text leading-tight">Por que nossos clientes nos escolhem?</h2>
+  <section class="py-24 bg-[#ffffff] px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-up">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-[#0a0a0a]">Reconhece estes desafios?</h2>
       </div>
-      <div class="lg:col-span-8 space-y-12 border-l border-brand-border pl-8 md:pl-16">
+      <div class="grid md:grid-cols-3 gap-8">
         
-        <div class="fade-up group">
-          <span class="font-serif text-5xl text-brand-border group-hover:text-brand-accent transition-colors block mb-4">01</span>
-          <p class="text-xl md:text-2xl text-brand-text font-light leading-relaxed">ascas</p>
+        <div class="card-tech p-10 framer-tilt fade-up delay-100">
+          <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center mb-6 text-xl font-bold text-gray-400">01</div>
+          <p class="text-gray-600 leading-relaxed">ascas</p>
         </div>
         
         
-        <div class="fade-up group">
-          <span class="font-serif text-5xl text-brand-border group-hover:text-brand-accent transition-colors block mb-4">02</span>
-          <p class="text-xl md:text-2xl text-brand-text font-light leading-relaxed">asca</p>
+        <div class="card-tech p-10 framer-tilt fade-up delay-200">
+          <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center mb-6 text-xl font-bold text-gray-400">02</div>
+          <p class="text-gray-600 leading-relaxed">asca</p>
         </div>
         
         
-        <div class="fade-up group">
-          <span class="font-serif text-5xl text-brand-border group-hover:text-brand-accent transition-colors block mb-4">03</span>
-          <p class="text-xl md:text-2xl text-brand-text font-light leading-relaxed">casca</p>
+        <div class="card-tech p-10 framer-tilt fade-up delay-300">
+          <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center mb-6 text-xl font-bold text-gray-400">03</div>
+          <p class="text-gray-600 leading-relaxed">casca</p>
         </div>
         
       </div>
@@ -200,27 +207,19 @@
   
 
   
-  <section id="sobre" class="py-32 px-8">
-    <div class="max-w-7xl mx-auto grid md:grid-cols-12 gap-12 items-center">
-      <div class="md:col-span-6 relative fade-up">
-        <div class="w-full aspect-[3/4] overflow-hidden parallax-img-wrapper">
-          <div class="w-full h-full bg-brand-border parallax-img">
-            
-            <img src="assets/sobre_3147b91f7240407fbb51c11bb0b3907e.webp" alt="Sobre" class="w-full h-full object-cover">
-            
-          </div>
+  <section class="py-28 px-6 bg-[#ffffff]">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div class="fade-up framer-tilt">
+        <div class="w-full aspect-[4/5] bg-gray-100 rounded-3xl overflow-hidden relative shadow-2xl shadow-black/5 border border-gray-200 flex items-center justify-center">
+          
+          <img src="assets/sobre_3147b91f7240407fbb51c11bb0b3907e.webp" alt="Sobre Nós" class="absolute inset-0 w-full h-full object-cover">
+          
         </div>
-        
-        <div class="absolute -bottom-10 -right-10 bg-brand-text text-brand-bg p-8 w-48 h-48 rounded-full flex flex-col items-center justify-center text-center framer-tilt hidden md:flex z-10">
-          <span class="text-4xl font-serif mb-1 counter" data-target="48">0</span>
-          <span class="text-xs uppercase tracking-widest leading-tight">Anos de<br>Experiência</span>
-        </div>
-        
       </div>
-      <div class="md:col-span-5 md:col-start-8 fade-up mt-12 md:mt-0">
-        <span class="text-xs uppercase tracking-[0.2em] text-brand-accent mb-6 block">Sobre</span>
-        <h2 class="text-4xl md:text-5xl font-serif text-brand-text leading-tight mb-8">Especialista em entregar o melhor resultado.</h2>
-        <p class="text-lg text-brand-muted font-light leading-relaxed mb-8">
+      <div class="fade-up">
+        <span class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-4 block">Sobre a empresa</span>
+        <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-8 leading-tight text-[#0a0a0a]">Autoridade comprovada.</h2>
+        <p class="text-lg text-gray-600 leading-relaxed">
           scasc
         </p>
       </div>
@@ -229,35 +228,31 @@
   
 
   
-  <section id="areas" class="py-32 px-8 bg-brand-surface">
+  <section class="py-28 bg-[#ffffff] px-6">
     <div class="max-w-7xl mx-auto">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 fade-up">
-        <h2 class="text-4xl md:text-5xl font-serif text-brand-text leading-tight max-w-md">Nossos Serviços</h2>
-        <a href="#contato" class="text-sm uppercase tracking-[0.1em] border-b border-brand-text pb-1 mt-6 md:mt-0 hover:text-brand-accent hover:border-brand-accent transition-colors">Ver todas as soluções</a>
+      <div class="text-center mb-20 fade-up">
+        <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-[#0a0a0a]">Especialidades</h2>
       </div>
-
-      <div class="grid md:grid-cols-3 gap-8">
+      <div class="grid md:grid-cols-3 gap-6">
         
-        <div class="fade-up group p-10 border border-brand-border bg-brand-bg hover:bg-brand-surface transition-colors duration-500">
-          <span class="text-brand-accent font-serif text-2xl mb-6 block opacity-70 group-hover:opacity-100 transition-opacity">I.</span>
-          <h3 class="text-2xl font-serif text-brand-text mb-4">ca</h3>
-          <p class="text-brand-muted font-light leading-relaxed">acsa</p>
+        <div class="card-tech p-10 framer-tilt fade-up group">
+          <div class="h-1 w-10 bg-black mb-8 transition-all group-hover:w-16"></div>
+          <h3 class="text-2xl font-bold mb-4 text-[#0a0a0a]">ca</h3>
+          <p class="text-gray-500 leading-relaxed">acsa</p>
         </div>
         
         
-        
-        <div class="fade-up group p-10 border border-brand-border bg-brand-bg hover:bg-brand-surface transition-colors duration-500" style="transition-delay: 100ms;">
-          <span class="text-brand-accent font-serif text-2xl mb-6 block opacity-70 group-hover:opacity-100 transition-opacity">II.</span>
-          <h3 class="text-2xl font-serif text-brand-text mb-4">cas</h3>
-          <p class="text-brand-muted font-light leading-relaxed">scasc</p>
+        <div class="card-tech p-10 framer-tilt fade-up group delay-100">
+          <div class="h-1 w-10 bg-black mb-8 transition-all group-hover:w-16"></div>
+          <h3 class="text-2xl font-bold mb-4 text-[#0a0a0a]">cas</h3>
+          <p class="text-gray-500 leading-relaxed">scasc</p>
         </div>
         
-
         
-        <div class="fade-up group p-10 border border-brand-border bg-brand-bg hover:bg-brand-surface transition-colors duration-500" style="transition-delay: 200ms;">
-          <span class="text-brand-accent font-serif text-2xl mb-6 block opacity-70 group-hover:opacity-100 transition-opacity">III.</span>
-          <h3 class="text-2xl font-serif text-brand-text mb-4">scas</h3>
-          <p class="text-brand-muted font-light leading-relaxed">asca</p>
+        <div class="card-tech p-10 framer-tilt fade-up group delay-200">
+          <div class="h-1 w-10 bg-black mb-8 transition-all group-hover:w-16"></div>
+          <h3 class="text-2xl font-bold mb-4 text-[#0a0a0a]">scas</h3>
+          <p class="text-gray-500 leading-relaxed">asca</p>
         </div>
         
       </div>
@@ -266,63 +261,64 @@
   
 
   
-  <section class="py-24 bg-brand-surface overflow-hidden border-b border-brand-border">
-    <div class="max-w-7xl mx-auto px-8 text-center mb-16 fade-up">
-      <h2 class="text-3xl md:text-4xl font-serif text-brand-text leading-tight">Galeria Completa</h2>
+  <section class="py-28 bg-[#ffffff] px-6 overflow-hidden border-t border-gray-200">
+    <div class="max-w-7xl mx-auto text-center mb-16 fade-up">
+      <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-[#0a0a0a]">Projetos em Destaque</h2>
+      <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Confira um pouco do que já foi feito com excelência.</p>
     </div>
 
-    <div class="flex w-full overflow-hidden group gap-6 py-4">
+    <div class="flex w-full overflow-hidden group gap-6 py-8">
       <div class="flex flex-shrink-0 gap-6 animate-infinite-scroll group-hover:[animation-play-state:paused] px-3">
           
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Portfólio" class="w-full h-full object-cover"></div>
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Portfólio" class="w-full h-full object-cover"></div>
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Galeria" class="w-full h-full object-cover"></div>
-            
-          
-            
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Galeria" class="w-full h-full object-cover"></div>
-            
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Galeria" class="w-full h-full object-cover"></div>
-            
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Portfólio" class="w-full h-full object-cover"></div>
             
           
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Portfólio" class="w-full h-full object-cover"></div>
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Portfólio" class="w-full h-full object-cover"></div>
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Portfólio" class="w-full h-full object-cover"></div>
+            
+          
+            
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Portfólio" class="w-full h-full object-cover"></div>
+            
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Portfólio" class="w-full h-full object-cover"></div>
+            
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Portfólio" class="w-full h-full object-cover"></div>
             
           
       </div>
       <div class="flex flex-shrink-0 gap-6 animate-infinite-scroll group-hover:[animation-play-state:paused] px-3" aria-hidden="true">
           
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Portfólio" class="w-full h-full object-cover"></div>
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Portfólio" class="w-full h-full object-cover"></div>
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Galeria" class="w-full h-full object-cover"></div>
-            
-          
-            
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Galeria" class="w-full h-full object-cover"></div>
-            
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Galeria" class="w-full h-full object-cover"></div>
-            
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Portfólio" class="w-full h-full object-cover"></div>
             
           
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Portfólio" class="w-full h-full object-cover"></div>
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Portfólio" class="w-full h-full object-cover"></div>
             
-            <div class="carousel-item p-0 overflow-hidden border-none"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Galeria" class="w-full h-full object-cover"></div>
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Portfólio" class="w-full h-full object-cover"></div>
+            
+          
+            
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_69e19d9945f845a5b0a8480492fd3e8f.jpeg" alt="Portfólio" class="w-full h-full object-cover"></div>
+            
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_6fc5ad3aa44c4e319dc35ccb09475177.png" alt="Portfólio" class="w-full h-full object-cover"></div>
+            
+            <div class="tech-portfolio-item p-0 overflow-hidden"><img src="assets/port_b423606c9e5e43f986551ed12acc87b4.webp" alt="Portfólio" class="w-full h-full object-cover"></div>
             
           
       </div>
@@ -331,66 +327,56 @@
   
 
   
-  <section class="py-24 px-8">
-    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-y-12 gap-x-8 text-center divide-x divide-brand-border">
+  <section class="py-24 bg-[#0a0a0a] text-[#ffffff] px-6 overflow-hidden relative">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#6e6e7333_0%,_transparent_70%)] pointer-events-none"></div>
+    <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-12 text-center relative z-10">
       
-      <div class="fade-up">
-        <div class="text-6xl md:text-7xl font-serif text-brand-text mb-4 counter" data-target="48">0</div>
-        <div class="text-xs uppercase tracking-widest text-brand-muted">Anos de<br>Experiência</div>
+      <div class="fade-up framer-tilt">
+        <div class="text-6xl md:text-8xl font-black tracking-tighter counter" data-target="48">0</div>
+        <div class="text-sm font-medium text-[#ffffff] uppercase tracking-widest mt-4 opacity-70">Anos de Experiência</div>
       </div>
       
       
-      <div class="fade-up delay-100">
-        <div class="text-6xl md:text-7xl font-serif text-brand-text mb-4 counter" data-target="150">0</div>
-        <div class="text-xs uppercase tracking-widest text-brand-muted">Clientes<br>Atendidos</div>
+      <div class="fade-up framer-tilt delay-100">
+        <div class="text-6xl md:text-8xl font-black tracking-tighter counter" data-target="150">0</div>
+        <div class="text-sm font-medium text-[#ffffff] uppercase tracking-widest mt-4 opacity-70">Projetos Entregues</div>
       </div>
       
-      <div class="fade-up delay-200 col-span-2 md:col-span-1 border-none md:border-l">
-        <div class="text-6xl md:text-7xl font-serif text-brand-text mb-4">100<span class="text-3xl font-sans">%</span></div>
-        <div class="text-xs uppercase tracking-widest text-brand-muted">Foco em<br>Excelência</div>
+      <div class="fade-up framer-tilt delay-200 col-span-2 md:col-span-1">
+        <div class="text-6xl md:text-8xl font-black tracking-tighter">100<span class="text-4xl">%</span></div>
+        <div class="text-sm font-medium text-[#ffffff] uppercase tracking-widest mt-4 opacity-70">Foco em Resultado</div>
       </div>
     </div>
   </section>
   
 
   
-  <section class="py-32 px-8 bg-brand-surface border-t border-brand-border">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-serif text-brand-text text-center mb-20 fade-up">Como Funciona</h2>
-      
-      <div class="relative">
-        <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-brand-border -translate-x-1/2"></div>
+  <section class="py-28 bg-[#ffffff] px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-20 fade-up">
+        <h2 class="text-4xl font-bold tracking-tight text-[#0a0a0a]">Como funciona o trabalho</h2>
+      </div>
+      <div class="flex flex-col md:flex-row gap-8 relative">
+        <div class="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-gray-200 z-0"></div>
         
         
-        <div class="flex flex-col md:flex-row items-center justify-between mb-16 fade-up relative z-10">
-          <div class="md:w-5/12 text-center md:text-right order-2 md:order-1 mt-6 md:mt-0">
-            <h3 class="text-2xl font-serif text-brand-text mb-2">scas</h3>
-            <p class="text-brand-muted font-light text-sm">Entendimento rápido e focado na sua necessidade.</p>
-          </div>
-          <div class="w-16 h-16 bg-brand-bg border border-brand-border rounded-full flex items-center justify-center font-serif text-xl text-brand-text order-1 md:order-2 shadow-sm framer-tilt">1</div>
-          <div class="md:w-5/12 order-3"></div>
+        <div class="flex-1 text-center relative z-10 fade-up framer-tilt">
+          <div class="w-24 h-24 mx-auto bg-white border-2 border-gray-200 rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-xl shadow-black/5 text-[#0a0a0a]">1</div>
+          <h3 class="text-xl font-bold mb-2 text-[#0a0a0a]">scas</h3>
         </div>
         
-
         
-        <div class="flex flex-col md:flex-row items-center justify-between mb-16 fade-up relative z-10">
-          <div class="md:w-5/12 order-2 md:order-1"></div>
-          <div class="w-16 h-16 bg-brand-bg border border-brand-border rounded-full flex items-center justify-center font-serif text-xl text-brand-text order-1 md:order-2 shadow-sm framer-tilt">2</div>
-          <div class="md:w-5/12 text-center md:text-left order-3 mt-6 md:mt-0">
-            <h3 class="text-2xl font-serif text-brand-text mb-2">aca</h3>
-            <p class="text-brand-muted font-light text-sm">Execução dedicada e com foco absoluto na qualidade.</p>
-          </div>
+        
+        <div class="flex-1 text-center relative z-10 fade-up framer-tilt delay-100">
+          <div class="w-24 h-24 mx-auto bg-white border-2 border-[#0a0a0a] rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-xl shadow-black/10 text-[#0a0a0a]">2</div>
+          <h3 class="text-xl font-bold mb-2 text-[#0a0a0a]">aca</h3>
         </div>
         
-
         
-        <div class="flex flex-col md:flex-row items-center justify-between fade-up relative z-10">
-          <div class="md:w-5/12 text-center md:text-right order-2 md:order-1 mt-6 md:mt-0">
-            <h3 class="text-2xl font-serif text-brand-text mb-2">sca</h3>
-            <p class="text-brand-muted font-light text-sm">Entrega do resultado esperado.</p>
-          </div>
-          <div class="w-16 h-16 bg-brand-text text-brand-bg rounded-full flex items-center justify-center font-serif text-xl order-1 md:order-2 shadow-md framer-tilt">3</div>
-          <div class="md:w-5/12 order-3"></div>
+        
+        <div class="flex-1 text-center relative z-10 fade-up framer-tilt delay-200">
+          <div class="w-24 h-24 mx-auto bg-black border-2 border-black rounded-full flex items-center justify-center text-3xl font-bold mb-6 shadow-xl shadow-black/20 text-white">3</div>
+          <h3 class="text-xl font-bold mb-2 text-[#0a0a0a]">sca</h3>
         </div>
         
       </div>
@@ -399,51 +385,48 @@
   
 
   
-  <section class="py-32 px-8 bg-brand-bg">
+  <section class="py-24 bg-[#ffffff] px-6">
     <div class="max-w-3xl mx-auto">
-      <h2 class="text-4xl md:text-5xl font-serif text-brand-text text-center mb-16 fade-up">Perguntas Frequentes</h2>
-      
-      <div class="border-t border-brand-border">
+      <div class="text-center mb-16 fade-up">
+        <h2 class="text-4xl font-bold tracking-tight text-[#0a0a0a]">Dúvidas Frequentes</h2>
+      </div>
+      <div class="space-y-4">
         
-        <div class="faq-item fade-up">
-          <button class="w-full flex items-center justify-between py-8 text-left cursor-pointer group" onclick="toggleFaq(this)">
-            <span class="font-serif text-2xl text-brand-text group-hover:text-brand-accent transition-colors">asc</span>
-            <span class="faq-icon text-2xl font-light text-brand-muted">↓</span>
+        <div class="bg-[#ffffff] border border-gray-200 rounded-2xl p-2 fade-up">
+          <button class="w-full flex items-center justify-between p-6 text-left font-bold text-lg cursor-pointer text-[#0a0a0a]" onclick="toggleFaq(this)">
+            tudo dela
+            <span class="faq-icon text-2xl font-light">+</span>
           </button>
-          <div class="faq-answer">
-            <p class="pb-8 text-brand-muted font-light text-lg leading-relaxed">scac</p>
+          <div class="faq-answer px-6 text-gray-600 leading-relaxed">
+            <p>scac</p>
           </div>
         </div>
         
-
         
-
         
-       
         
       </div>
     </div>
   </section>
   
 
-  <section id="contato" class="py-40 px-8 bg-brand-surface border-t border-brand-border text-center">
-    <div class="max-w-4xl mx-auto fade-up">
-      <span class="text-xs uppercase tracking-[0.2em] text-brand-accent mb-6 block">Dê o próximo passo</span>
-      <h2 class="text-[clamp(40px,5vw,72px)] font-serif text-brand-text mb-8 leading-tight">
-        Sua próxima grande experiência começa aqui.
+  <section id="contato" class="py-32 px-6 bg-[#ffffff] text-center relative overflow-hidden">
+    <div class="max-w-4xl mx-auto relative z-10">
+      <h2 class="fade-up text-[clamp(40px,5vw,64px)] font-black tracking-tight mb-8 leading-tight text-[#0a0a0a]">
+        Vamos iniciar?
       </h2>
-      <p class="text-xl text-brand-muted font-light mb-16 max-w-2xl mx-auto">À disposição para te atender e tirar todas as suas dúvidas.</p>
+      <p class="fade-up text-xl text-gray-500 mb-12">Entre em contato via WhatsApp ou nos acompanhe no Instagram.</p>
       
-      <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+      <div class="fade-up flex flex-col sm:flex-row justify-center items-center gap-6">
         <div class="framer-magnetic">
-          <a href="https://wa.me/48992086832?text=acsasc" class="btn-premium w-full sm:w-auto">
-            Falar pelo WhatsApp
+          <a href="https://wa.me/48992086832?text=acsasc" class="btn-glow px-10 py-5 text-lg w-full sm:w-auto">
+            Falar no WhatsApp
           </a>
         </div>
         
         <div class="framer-magnetic">
-          <a href="https://instagram.com/epiverso" class="btn-outline w-full sm:w-auto">
-            Acompanhe no Instagram
+          <a href="https://instagram.com/epiverso" class="btn-glow bg-transparent border-2 border-[#0a0a0a] text-[#0a0a0a] px-10 py-5 text-lg w-full sm:w-auto hover:bg-[#0a0a0a] hover:text-[#ffffff]">
+            Seguir no Instagram
           </a>
         </div>
         
@@ -451,12 +434,12 @@
     </div>
   </section>
 
-  <footer class="py-10 text-center bg-brand-bg">
-    <p class="text-xs uppercase tracking-widest text-brand-muted mb-4">
+  <footer class="py-10 text-center border-t border-gray-200 bg-[#ffffff]">
+    <p class="text-sm font-semibold text-gray-500 mb-4">
       📍 rua getulio vargas, 615
     </p>
-    <p class="text-xs uppercase tracking-widest text-brand-muted">
-      &copy; 2026 csadv. Desenvolvido por <a href="https://epiverso.com" target="_blank" class="text-brand-text hover:underline">Epiverso</a>.
+    <p class="text-sm font-semibold text-gray-400">
+      &copy; 2026 csadv. Desenvolvido com tecnologia de alta performance pela Epiverso.
     </p>
   </footer>
 
@@ -466,9 +449,9 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Lenis Smooth Scroll
+      // 1. Lenis Smooth Scroll
       const lenis = new Lenis({
-        duration: 1.5,
+        duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smooth: true,
       });
@@ -481,47 +464,33 @@
       gsap.registerPlugin(ScrollTrigger);
       lenis.on('scroll', ScrollTrigger.update);
 
-      // Barra de Progresso Topo
+      // 2. Barra de Progresso Topo
       gsap.to("#gsap-progress-bar", {
         width: "100%", ease: "none", 
         scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.3 }
       });
 
-      // Reveal Elements
+      // 3. Reveal Elements (Fade-up)
       const fadeEls = document.querySelectorAll('.fade-up');
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
+        entries.forEach((entry, idx) => {
           if (entry.isIntersecting) {
-            setTimeout(() => { entry.target.classList.add('visible'); }, 150);
+            setTimeout(() => { entry.target.classList.add('visible'); }, 100);
             observer.unobserve(entry.target);
           }
         });
       }, { threshold: 0.1 });
       fadeEls.forEach(el => observer.observe(el));
 
-      // Parallax Imagens
-      gsap.utils.toArray('.parallax-img').forEach(img => {
-        gsap.to(img, {
-          yPercent: 15,
-          ease: "none",
-          scrollTrigger: {
-            trigger: img.parentElement,
-            start: "top bottom", 
-            end: "bottom top",
-            scrub: true
-          }
-        });
-      });
-
-      // Cursor Customizado
+      // 4. Cursor Customizado (Só Desktop)
       const cursor = document.getElementById('gsap-cursor');
       const follower = document.getElementById('gsap-cursor-follower');
       if (cursor && follower && window.innerWidth >= 768) {
         gsap.set([cursor, follower], { xPercent: -50, yPercent: -50 });
-        const xToCursor = gsap.quickTo(cursor, "x", {duration: 0.2, ease: "power3"});
-        const yToCursor = gsap.quickTo(cursor, "y", {duration: 0.2, ease: "power3"});
-        const xToFollower = gsap.quickTo(follower, "x", {duration: 0.6, ease: "power3"});
-        const yToFollower = gsap.quickTo(follower, "y", {duration: 0.6, ease: "power3"});
+        const xToCursor = gsap.quickTo(cursor, "x", {duration: 0.15, ease: "power3"});
+        const yToCursor = gsap.quickTo(cursor, "y", {duration: 0.15, ease: "power3"});
+        const xToFollower = gsap.quickTo(follower, "x", {duration: 0.5, ease: "power3"});
+        const yToFollower = gsap.quickTo(follower, "y", {duration: 0.5, ease: "power3"});
         
         window.addEventListener('mousemove', (e) => {
           cursor.style.opacity = 1; follower.style.opacity = 1;
@@ -529,51 +498,51 @@
           xToFollower(e.clientX); yToFollower(e.clientY);
         });
 
-        document.querySelectorAll('a, button, .framer-magnetic, .group').forEach(el => {
+        document.querySelectorAll('a, button, .framer-magnetic, .tech-portfolio-item').forEach(el => {
           el.addEventListener('mouseenter', () => {
-            gsap.to(cursor, {scale: 1.5, backgroundColor: "rgba(176, 168, 154, 0.1)", borderColor: "rgba(176, 168, 154, 0.5)", duration: 0.4});
-            gsap.to(follower, {scale: 0.5, duration: 0.3});
+            gsap.to(cursor, {scale: 1.8, backgroundColor: "rgba(10, 10, 10, 0.1)", duration: 0.3});
+            gsap.to(follower, {scale: 0, duration: 0.3});
           });
           el.addEventListener('mouseleave', () => {
-            gsap.to(cursor, {scale: 1, backgroundColor: "transparent", borderColor: "rgba(44, 43, 42, 0.3)", duration: 0.4});
+            gsap.to(cursor, {scale: 1, backgroundColor: "transparent", duration: 0.3});
             gsap.to(follower, {scale: 1, duration: 0.3});
           });
         });
       }
 
-      // Efeito Magnetic
+      // 5. Efeito Magnetic
       document.querySelectorAll('.framer-magnetic').forEach(btn => {
         btn.addEventListener('mousemove', (e) => {
           const rect = btn.getBoundingClientRect();
           const x = e.clientX - rect.left - rect.width / 2;
           const y = e.clientY - rect.top - rect.height / 2;
-          btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+          btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
         });
         btn.addEventListener('mouseleave', () => {
           btn.style.transform = `translate(0px, 0px)`;
-          btn.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+          btn.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         });
       });
 
-      // Efeito Tilt
+      // 6. Efeito Tilt (3D Cards)
       document.querySelectorAll('.framer-tilt').forEach(el => {
         el.addEventListener('mousemove', (e) => {
           if(window.innerWidth < 768) return; 
           const rect = el.getBoundingClientRect();
           const x = e.clientX - rect.left; const y = e.clientY - rect.top;
           const centerX = rect.width / 2; const centerY = rect.height / 2;
-          const rotateX = ((y - centerY) / centerY) * -2;
-          const rotateY = ((x - centerX) / centerX) * 2;
-          el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+          const rotateX = ((y - centerY) / centerY) * -4;
+          const rotateY = ((x - centerX) / centerX) * 4;
+          el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
           el.style.transition = 'none';
         });
         el.addEventListener('mouseleave', () => {
           el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-          el.style.transition = 'transform 0.8s ease-out';
+          el.style.transition = 'transform 0.5s ease-out';
         });
       });
 
-      // Contador Animado
+      // 7. Contador Animado (Prova Social)
       const counters = document.querySelectorAll('.counter');
       counters.forEach(counter => {
         ScrollTrigger.create({
@@ -584,7 +553,7 @@
             const target = +counter.getAttribute('data-target') || 0;
             gsap.to(counter, {
               innerHTML: target,
-              duration: 2.5,
+              duration: 2,
               snap: { innerHTML: 1 },
               ease: "power2.out"
             });
@@ -592,15 +561,13 @@
         });
       });
       
-      // Navbar Blur no Scroll
+      // 8. Navbar Background ao Scrolar
       const navbar = document.getElementById('navbar');
       window.addEventListener('scroll', () => {
-        if(window.scrollY > 30) {
-          navbar.classList.add('shadow-sm');
-          navbar.classList.remove('py-2');
+        if(window.scrollY > 50) {
+          navbar.classList.add('shadow-md');
         } else {
-          navbar.classList.remove('shadow-sm');
-          navbar.classList.add('py-2');
+          navbar.classList.remove('shadow-md');
         }
       });
     });
